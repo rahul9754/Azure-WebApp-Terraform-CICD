@@ -1,0 +1,12 @@
+resource_group_name   = "RG-01"
+location              = "Central India"
+vm_name               = "myWebApp"
+admin_username        = "azureuser"
+admin_password        = "Test@123456"
+lb_name               = "LB-01"
+vnet_name             = "vNet-01"
+subnet_name           = "Subnet-A"
+lb_pub_ip_name        = "publicIP-01"
+nsg_name              = "nsg-01"
+vm_size               = "Standard_B2s"
+lbFrontendPort        = 80
