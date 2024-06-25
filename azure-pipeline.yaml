@@ -1,0 +1,42 @@
+trigger:
+- main
+
+stages:
+- stage: TerraformInit
+  jobs:
+  - job: Init
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        terraform init
+      displayName: 'Terraform Init'
+
+- stage: TerraformPlan
+  jobs:
+  - job: Plan
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        terraform plan -out=tfplan
+      displayName: 'Terraform Plan'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/tfplan'
+        artifactName: 'tfplan'
+        publishLocation: 'Pipeline'
+
+- stage: TerraformApply
+  jobs:
+  - job: Apply
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifactName: 'tfplan'
+    - script: |
+        terraform apply -auto-approve tfplan
+      displayName: 'Terraform Apply'
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
