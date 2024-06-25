@@ -1,9 +1,3 @@
-# public IP of LB
-
-# output "lbpubip" {
-#   value = azurerm_public_ip.lbpubip.ip_address
-# }
-
 output "nic_id" {
   value = module.virtual-machine.nic_id
 }
